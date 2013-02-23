@@ -1,0 +1,26 @@
+
+Assignment 2 is to use ocaml's yacc tool to generate a parser for a simple language for a symbolic calculator.  The output of the calculator is an (sequence of) abstract syntax trees.  You can use (and extend or modify) the lexical tokens that you developed in assignment 1.
+
+The language consists of:
+
+- Constants:
+
+     Integer numberals
+     Boolean constants: T and F
+     Real constants, in floating point notation
+
+- Variables
+
+- Arithmetic expressions involving addition, multiplication, substraction, division, remainder following a BoDMAS convention for precedence and appropriate associativity. Unary minus operations are also permitted.
+
+          Note: The arithmetic expresisons can be of integer type or real type (use different operators, as in ocaml, to distinguish      between the two kinds of addition, multiplication etc; and choose a suitable token for unary minus).
+
+- Elementary boolean expressions which consist of
+      - boolean propositional variables
+      - comparison operations (equal, greater than, less than, greater than or equal, less than or equal, not equal) of arithmetic expressions;
+
+- Boolean combinations using "and", "or" and "not" -- with not binding tightest, then "and" and "or" being weakest (you may design a suitable syntax for the boolean connectives), with suitable associativity.
+
+- Finally extend your language to include function applications which have the syntax
+<identifier> ( <term>, ... , <term> )
+as a new kind of (symbolic) expression.

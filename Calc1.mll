@@ -1,26 +1,55 @@
 
-(* file: lexer.mll *)
-(* Lexical analyzer returns one of the tokens:
-   the token NUM of a floating point number,
-   operators (PLUS, MINUS, MULTIPLY, DIVIDE, CARET, UMINUS),
-   or NEWLINE.  It skips all blanks and tabs, unknown characters
-   and raises End_of_file on EOF. *)
 {
-  open Calc (* Assumes the parser file is "rtcalc.mly". *)
+  open Calc
+  open Lexing
+	let create_hashtable size init =
+	let tbl = Hashtbl.create size in
+	List.iter (fun (key, data) -> Hashtbl.add tbl key data) init;
+	tbl
+
+  
 }
+
 let digit = ['0'-'9']
+let ident = ['a'-'z' 'A'-'Z']
+let ident_num = ['a'-'z' 'A'-'Z' '0'-'9']
 rule token = parse
   | [' ' '\t']	{ token lexbuf }
   | '\n'	{ NEWLINE }
-  | digit+
-  | "." digit+
+  | digit+ as inum
+		{ INUM (int_of_string inum) }
+  | "." digit+ 
   | digit+ "." digit* as num
-		{ NUM (float_of_string num) }
-  | '+'		{ PLUS }
-  | '-'		{ MINUS }
-  | '*'		{ MULTIPLY }
-  | '/'		{ DIVIDE }
-  | '^'		{ CARET }
-  | 'n'		{ UMINUS }
+		{ FNUM (float_of_string num) }
+  | '+'		{ IPLUS }
+  | '-'		{ IMINUS }
+  | '*'		{ IMULTIPLY }
+  | '/'		{ IDIVIDE }
+	| "mod"	{ IMOD }
+	| ".+"		{ FPLUS }
+  | ".-"		{ FMINUS }
+  | ".*"		{ FMULTIPLY }
+  | "./"		{ FDIVIDE }
+	| ".mod"	{ FMOD }
+	| ".^"  { FPOWER }
+  | '^'		{ IPOWER }
+  | '('		{ LPAREN }
+  | ')'		{ RPAREN }
+  | '='		{ EQ }
+	| 'T'   { TRUE (true) }
+	| 'F'   { FALSE (false) }
+	| '<'   { LESS }
+	| '>'   { GREATER }
+	| '='		{ EQ }
+	| "<="
+	| "=<"	{ LESSEQ }
+	| "=>"
+	| ">="	{ GREATEREQ }
+	| "/\\" { OR }
+	| "\\/" { AND }
+	| "/="  { NOT }
+  | ident ident_num* as word
+  		{ VAR  ( word)
+  		}
   | _		{ token lexbuf }
   | eof		{ raise End_of_file }
