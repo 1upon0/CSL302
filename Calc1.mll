@@ -2,10 +2,7 @@
 {
   open Calc
   open Lexing
-	let create_hashtable size init =
-	let tbl = Hashtbl.create size in
-	List.iter (fun (key, data) -> Hashtbl.add tbl key data) init;
-	tbl
+	
 
   
 }
@@ -17,10 +14,10 @@ rule token = parse
   | [' ' '\t']	{ token lexbuf }
   | '\n'	{ NEWLINE }
   | digit+ as inum
-		{ INUM (int_of_string inum) }
+		{ INUM ( inum ) }
   | "." digit+ 
   | digit+ "." digit* as num
-		{ FNUM (float_of_string num) }
+		{ FNUM (num) }
   | '+'		{ IPLUS }
   | '-'		{ IMINUS }
   | '*'		{ IMULTIPLY }
@@ -41,6 +38,7 @@ rule token = parse
 	| '<'   { LESS }
 	| '>'   { GREATER }
 	| '='		{ EQ }
+	| ','   { COMMA }
 	| "<="
 	| "=<"	{ LESSEQ }
 	| "=>"

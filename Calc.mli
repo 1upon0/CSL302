@@ -10,10 +10,11 @@ type token =
   | GREATEREQ
   | LESS
   | GREATER
+  | COMMA
   | TRUE of (bool)
   | FALSE of (bool)
-  | FNUM of (float)
-  | INUM of (int)
+  | FNUM of (string)
+  | INUM of (string)
   | IPLUS
   | IMINUS
   | IMULTIPLY
@@ -28,7 +29,6 @@ type token =
   | IPOWER
   | FPOWER
   | VAR of (string)
-  | FNCT of (float->float)
 
 val input :
-  (Lexing.lexbuf  -> token) -> Lexing.lexbuf -> expr	
+  (Lexing.lexbuf  -> token) -> Lexing.lexbuf -> unit
